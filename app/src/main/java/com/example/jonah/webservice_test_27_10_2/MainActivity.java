@@ -29,20 +29,20 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    String url="http://192.168.1.98/WebService/getData.php";
-    String urlXoa="http://192.168.1.98/WebService/delete.php";
-    ListView lwSinhVien;
-    ArrayList<SinhVien> arraySinhVien;
-    SinhVienAdapter adapter;
+    String url="http://192.168.56.1/WebService/getData.php";
+
+    ListView lvTinhNguyen;
+    ArrayList<TinhNguyen> arrayTinhNguyen;
+    TinhNguyenAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lwSinhVien=(ListView)findViewById(R.id.listViewSinhVien);
-        arraySinhVien=new ArrayList<>();
-        adapter=new SinhVienAdapter(this,R.layout.item_sinh_vien,arraySinhVien);
-        lwSinhVien.setAdapter(adapter);
+        lvTinhNguyen=(ListView)findViewById(R.id.listViewTinhNguyen);
+        arrayTinhNguyen=new ArrayList<>();
+        adapter=new TinhNguyenAdapter(this,R.layout.item_tinh_nguyen,arrayTinhNguyen);
+        lvTinhNguyen.setAdapter(adapter);
         GetData(url);
     }
     private void GetData(String url){
@@ -50,17 +50,21 @@ public class MainActivity extends AppCompatActivity {
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                arraySinhVien.clear();
+                arrayTinhNguyen.clear();
                 for(int i=0;i<response.length();i++)
                 {
                     try {
                         JSONObject object=response.getJSONObject(i);
-                        arraySinhVien.add(new SinhVien(object.getInt("Id"),
-                                object.getString("Hoten"),
-                                object.getInt("Namsinh"),
-                                object.getString("Diachi")));
+                        arrayTinhNguyen.add(new TinhNguyen(object.getString("Mahoatdong"),
+                                object.getString("Tenhoatdong"),
+                                object.getString("Matruong"),
+                                object.getString("Tentruong"),
+                                object.getString("Ngaybatdau"),
+                                object.getString("Ngayketthuc"),
+                                object.getString("Diadiem"),
+                                object.getString("Noidung")));
                     } catch (JSONException e) {
-                        Toast.makeText(MainActivity.this,"Lỗi ở đây",Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_LONG).show();
                         e.printStackTrace();
 
                     }
@@ -90,36 +94,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void XoaHocSinh(final int idSV){
-        RequestQueue requestQueue=Volley.newRequestQueue(this);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, urlXoa,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(response.trim().equals("success")){
-                            Toast.makeText(MainActivity.this,"Xóa thành công!",Toast.LENGTH_SHORT).show();
-                            GetData(url);
-                        }
-                        else {
-                            Toast.makeText(MainActivity.this,"Lỗi khi xóa!",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this,error.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                }
-        )
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String>param=new HashMap<>();
-                param.put("idSV",String.valueOf(idSV));
-                return param;
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
+
 }

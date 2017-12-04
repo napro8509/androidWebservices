@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".buttonAddActivity" />
-        <activity android:name=".CapNhatSinhVien"></activity>
+        <activity android:name=".CapNhatSinhVien" />
+        <activity android:name=".Test_Image"></activity>
     </application>
 
 </manifest>

@@ -81,28 +81,12 @@ public class SinhVienAdapter extends BaseAdapter {
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowDialog(sinhVien.getHoten(),sinhVien.getId());
+
 
             }
         });
         convertView.setMinimumHeight(100);
         return convertView;
     }
-    private void ShowDialog(String ten, final int id){
-        AlertDialog.Builder dialogXoa=new AlertDialog.Builder(context);
-        dialogXoa.setMessage("Bạn có muốn xóa sinh viên "+ten+" không?");
-        dialogXoa.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                context.XoaHocSinh(id);
-            }
-        });
-        dialogXoa.setNegativeButton("Không", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
-            }
-        });
-        dialogXoa.show();
-    }
 }

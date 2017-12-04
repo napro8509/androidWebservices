@@ -7,7 +7,7 @@
     tools:context="com.example.jonah.webservice_test_27_10_2.MainActivity">
 
     <ListView
-        android:id="@+id/listViewSinhVien"
+        android:id="@+id/listViewTinhNguyen"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
